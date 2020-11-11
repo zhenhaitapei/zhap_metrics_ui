@@ -13,6 +13,7 @@ import { kebabCase } from 'lodash';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import angular, { auto } from 'angular';
+import '../i18n/i18n';
 
 // get a react component from name (components can be an angular injectable e.g. value, factory or
 // available on window
