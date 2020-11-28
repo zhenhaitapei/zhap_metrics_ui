@@ -46,6 +46,7 @@ import { TimeSrv } from 'app/features/dashboard/services/TimeSrv';
 import { ContextSrv } from 'app/core/services/context_srv';
 import { getFieldLinksSupplier } from 'app/features/panel/panellinks/linkSuppliers';
 import { CoreEvents } from 'app/types';
+import i18n from 'app/core/i18n/i18n';
 
 const LegendWithThemeProvider = provideTheme(Legend);
 
@@ -200,7 +201,7 @@ class GraphElement {
         {
           items: [
             {
-              label: 'Add annotation',
+              label: i18n.t('Add annotation'),
               icon: 'comment-alt',
               onClick: () => this.eventManager.updateTime({ from: flotPosition.x, to: null }),
             },
@@ -652,7 +653,7 @@ class GraphElement {
       mode: 'time',
       min: min,
       max: max,
-      label: 'Datetime',
+      label: i18n.t('Datetime'),
       ticks: ticks,
       timeformat: graphTimeFormat(ticks, min, max),
       tickFormatter: graphTickFormatter,
@@ -670,7 +671,7 @@ class GraphElement {
       mode: null,
       min: 0,
       max: ticks.length + 1,
-      label: 'Datetime',
+      label: i18n.t('Datetime'),
       ticks: ticks,
     };
   }
@@ -725,7 +726,7 @@ class GraphElement {
       mode: null,
       min: min,
       max: max,
-      label: 'Histogram',
+      label: i18n.t('Histogram'),
       ticks: ticks,
     };
 
@@ -749,7 +750,7 @@ class GraphElement {
       mode: null,
       min: 0,
       max: ticks.length + 1,
-      label: 'Datetime',
+      label: i18n.t('Datetime'),
       ticks: ticks,
     };
   }

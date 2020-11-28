@@ -2,6 +2,8 @@
 import React, { PureComponent, FC, ReactNode } from 'react';
 import { connect, MapDispatchToProps } from 'react-redux';
 import { css } from 'emotion';
+import i18n from 'app/core/i18n/i18n';
+
 // Utils & Services
 import { appEvents } from 'app/core/app_events';
 import { PlaylistSrv } from 'app/features/playlist/playlist_srv';
@@ -134,7 +136,7 @@ class DashNav extends PureComponent<Props> {
     if (canStar) {
       buttons.push(
         <DashNavButton
-          tooltip="Mark as favorite"
+          tooltip={i18n.t('Mark as favorite')}
           classSuffix="star"
           icon={isStarred ? 'favorite' : 'star'}
           iconType={isStarred ? 'mono' : 'default'}
@@ -151,7 +153,7 @@ class DashNav extends PureComponent<Props> {
         <ModalsController key="button-share">
           {({ showModal, hideModal }) => (
             <DashNavButton
-              tooltip="Share dashboard"
+              tooltip={i18n.t('Share dashboard')}
               classSuffix="share"
               icon="share-alt"
               iconSize="lg"
@@ -226,7 +228,7 @@ class DashNav extends PureComponent<Props> {
       buttons.push(
         <DashNavButton
           classSuffix="save"
-          tooltip="Add panel"
+          tooltip={i18n.t('Add panel')}
           icon="panel-add"
           onClick={onAddPanel}
           iconType="mono"
@@ -238,7 +240,7 @@ class DashNav extends PureComponent<Props> {
         <ModalsController key="button-save">
           {({ showModal, hideModal }) => (
             <DashNavButton
-              tooltip="Save dashboard"
+              tooltip={i18n.t('Save dashboard')}
               classSuffix="save"
               icon="save"
               onClick={() => {
@@ -256,7 +258,7 @@ class DashNav extends PureComponent<Props> {
     if (snapshotUrl) {
       buttons.push(
         <DashNavButton
-          tooltip="Open original dashboard"
+          tooltip={i18n.t('Open original dashboard')}
           classSuffix="snapshot-origin"
           href={textUtil.sanitizeUrl(snapshotUrl)}
           icon="link"
@@ -268,7 +270,7 @@ class DashNav extends PureComponent<Props> {
     if (showSettings) {
       buttons.push(
         <DashNavButton
-          tooltip="Dashboard settings"
+          tooltip={i18n.t('Dashboard settings')}
           classSuffix="settings"
           icon="cog"
           onClick={this.onOpenSettings}
@@ -292,19 +294,19 @@ class DashNav extends PureComponent<Props> {
         {this.playlistSrv.isPlaying && (
           <div className="navbar-buttons navbar-buttons--playlist">
             <DashNavButton
-              tooltip="Go to previous dashboard"
+              tooltip={i18n.t('Go to previous dashboard')}
               classSuffix="tight"
               icon="step-backward"
               onClick={this.onPlaylistPrev}
             />
             <DashNavButton
-              tooltip="Stop playlist"
+              tooltip={i18n.t('Stop playlist')}
               classSuffix="tight"
               icon="square-shape"
               onClick={this.onPlaylistStop}
             />
             <DashNavButton
-              tooltip="Go to next dashboard"
+              tooltip={i18n.t('Go to next dashboard')}
               classSuffix="tight"
               icon="forward"
               onClick={this.onPlaylistNext}
@@ -315,7 +317,12 @@ class DashNav extends PureComponent<Props> {
         <div className="navbar-buttons navbar-buttons--actions">{this.renderRightActionsButton()}</div>
 
         <div className="navbar-buttons navbar-buttons--tv">
-          <DashNavButton tooltip="Cycle view mode" classSuffix="tv" icon="monitor" onClick={this.onToggleTVMode} />
+          <DashNavButton
+            tooltip={i18n.t('Cycle view mode')}
+            classSuffix="tv"
+            icon="monitor"
+            onClick={this.onToggleTVMode}
+          />
         </div>
 
         {!dashboard.timepicker.hidden && (

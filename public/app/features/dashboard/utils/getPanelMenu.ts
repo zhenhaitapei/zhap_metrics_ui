@@ -10,6 +10,7 @@ import { navigateToExplore } from '../../explore/state/actions';
 import { getExploreUrl } from '../../../core/utils/explore';
 import { getTimeSrv } from '../services/TimeSrv';
 import { PanelCtrl } from '../../panel/panel_ctrl';
+import i18n from 'app/core/i18n/i18n';
 
 export function getPanelMenu(
   dashboard: DashboardModel,
@@ -84,7 +85,7 @@ export function getPanelMenu(
 
   if (!panel.isEditing) {
     menu.push({
-      text: 'View',
+      text: i18n.t('View'),
       iconClassName: 'eye',
       onClick: onViewPanel,
       shortcut: 'v',
@@ -93,7 +94,7 @@ export function getPanelMenu(
 
   if (dashboard.canEditPanel(panel) && !panel.isEditing) {
     menu.push({
-      text: 'Edit',
+      text: i18n.t('Edit'),
       iconClassName: 'edit',
       onClick: onEditPanel,
       shortcut: 'e',
@@ -101,7 +102,7 @@ export function getPanelMenu(
   }
 
   menu.push({
-    text: 'Share',
+    text: i18n.t('Share'),
     iconClassName: 'share-alt',
     onClick: onSharePanel,
     shortcut: 'p s',
@@ -109,7 +110,7 @@ export function getPanelMenu(
 
   if (contextSrv.hasAccessToExplore() && !(panel.plugin && panel.plugin.meta.skipDataQuery)) {
     menu.push({
-      text: 'Explore',
+      text: i18n.t('Explore'),
       iconClassName: 'compass',
       shortcut: 'x',
       onClick: onNavigateToExplore,
@@ -121,26 +122,26 @@ export function getPanelMenu(
   // Only show these inspect actions for data plugins
   if (panel.plugin && !panel.plugin.meta.skipDataQuery) {
     inspectMenu.push({
-      text: 'Data',
+      text: i18n.t('Data'),
       onClick: (e: React.MouseEvent<any>) => onInspectPanel('data'),
     });
 
     if (dashboard.meta.canEdit) {
       inspectMenu.push({
-        text: 'Query',
+        text: i18n.t('Query'),
         onClick: (e: React.MouseEvent<any>) => onInspectPanel('query'),
       });
     }
   }
 
   inspectMenu.push({
-    text: 'Panel JSON',
+    text: i18n.t('Panel JSON'),
     onClick: (e: React.MouseEvent<any>) => onInspectPanel('json'),
   });
 
   menu.push({
     type: 'submenu',
-    text: 'Inspect',
+    text: i18n.t('Inspect'),
     iconClassName: 'info-circle',
     onClick: (e: React.MouseEvent<any>) => onInspectPanel(),
     shortcut: 'i',
@@ -151,13 +152,13 @@ export function getPanelMenu(
 
   if (dashboard.canEditPanel(panel) && !(panel.isViewing || panel.isEditing)) {
     subMenu.push({
-      text: 'Duplicate',
+      text: i18n.t('Duplicate'),
       onClick: onDuplicatePanel,
       shortcut: 'p d',
     });
 
     subMenu.push({
-      text: 'Copy',
+      text: i18n.t('Copy'),
       onClick: onCopyPanel,
     });
   }
@@ -188,7 +189,7 @@ export function getPanelMenu(
   if (!panel.isEditing && subMenu.length) {
     menu.push({
       type: 'submenu',
-      text: 'More...',
+      text: i18n.t('More...'),
       iconClassName: 'cube',
       subMenu,
       onClick: onMore,
@@ -199,7 +200,7 @@ export function getPanelMenu(
     menu.push({ type: 'divider', text: '' });
 
     menu.push({
-      text: 'Remove',
+      text: i18n.t('Remove'),
       iconClassName: 'trash-alt',
       onClick: onRemovePanel,
       shortcut: 'p r',
