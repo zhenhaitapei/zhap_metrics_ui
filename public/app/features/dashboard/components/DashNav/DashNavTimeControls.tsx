@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { dateMath, GrafanaTheme, TimeZone } from '@grafana/data';
 import { css } from 'emotion';
+import i18n from 'app/core/i18n/i18n';
 
 // Types
 import { DashboardModel } from '../../state';
@@ -122,7 +123,7 @@ class UnthemedDashNavTimeControls extends Component<Props> {
           onRefresh={this.onRefresh}
           value={dashboard.refresh}
           intervals={intervals}
-          tooltip="Refresh dashboard"
+          tooltip={i18n.t('Refresh dashboard')}
         />
       </div>
     );
