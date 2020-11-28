@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { dateMath, GrafanaTheme, TimeZone } from '@grafana/data';
 import { css } from 'emotion';
-import i18n from 'app/core/i18n/i18n';
+import { Translation } from 'react-i18next';
 
 // Types
 import { DashboardModel } from '../../state';
@@ -118,13 +118,17 @@ class UnthemedDashNavTimeControls extends Component<Props> {
           onZoom={this.onZoom}
           onChangeTimeZone={this.onChangeTimeZone}
         />
-        <RefreshPicker
-          onIntervalChanged={this.onChangeRefreshInterval}
-          onRefresh={this.onRefresh}
-          value={dashboard.refresh}
-          intervals={intervals}
-          tooltip={i18n.t('Refresh dashboard')}
-        />
+        <Translation>
+          {t => (
+            <RefreshPicker
+              onIntervalChanged={this.onChangeRefreshInterval}
+              onRefresh={this.onRefresh}
+              value={dashboard.refresh}
+              intervals={intervals}
+              tooltip={t('Refresh dashboard')}
+            />
+          )}
+        </Translation>
       </div>
     );
   }
