@@ -23,6 +23,8 @@ import { QueryOperationRow } from 'app/core/components/QueryOperationRow/QueryOp
 import { PanelModel } from 'app/features/dashboard/state';
 import { DetailText } from './DetailText';
 import { getDatasourceSrv } from '../../../plugins/datasource_srv';
+import { Translation } from 'react-i18next';
+import i18n from 'app/core/i18n/i18n';
 
 interface Props {
   panel: PanelModel;
@@ -144,21 +146,21 @@ export class InspectDataTab extends PureComponent<Props, State> {
     const parts: string[] = [];
 
     if (selectedDataFrame === DataTransformerID.seriesToColumns) {
-      parts.push('Series joined by time');
+      parts.push(i18n.t('Series joined by time'));
     } else if (data.length > 1) {
       parts.push(getFrameDisplayName(data[selectedDataFrame as number]));
     }
 
     if (options.withTransforms || options.withFieldConfig) {
       if (options.withTransforms) {
-        parts.push('Panel transforms');
+        parts.push(i18n.t('Panel transforms'));
       }
 
       if (options.withTransforms && options.withFieldConfig) {
       }
 
       if (options.withFieldConfig) {
-        parts.push('Formatted data');
+        parts.push(i18n.t('Formatted data'));
       }
     }
 
@@ -196,53 +198,51 @@ export class InspectDataTab extends PureComponent<Props, State> {
     }
 
     return (
-      <QueryOperationRow
-        id="Data options"
-        index={0}
-        title="Data options"
-        headerElement={<DetailText>{this.getActiveString()}</DetailText>}
-        isOpen={false}
-      >
-        <div className={styles.options}>
-          <VerticalGroup spacing="none">
-            {data!.length > 1 && (
-              <Field label="Show data frame">
-                <Select
-                  options={selectableOptions}
-                  value={selectedDataFrame}
-                  onChange={this.onDataFrameChange}
-                  width={30}
-                />
-              </Field>
-            )}
+      <Translation>
+        {t => (
+          <QueryOperationRow
+            id="Data options"
+            index={0}
+            title={t('Data options')}
+            headerElement={<DetailText>{this.getActiveString()}</DetailText>}
+            isOpen={false}
+          >
+            <div className={styles.options}>
+              <VerticalGroup spacing="none">
+                {data!.length > 1 && (
+                  <Field label="Show data frame">
+                    <Select
+                      options={selectableOptions}
+                      value={selectedDataFrame}
+                      onChange={this.onDataFrameChange}
+                      width={30}
+                    />
+                  </Field>
+                )}
 
-            <HorizontalGroup>
-              {showPanelTransformationsOption && (
-                <Field
-                  label="Apply panel transformations"
-                  description="Table data is displayed with transformations defined in the panel Transform tab."
-                >
-                  <Switch
-                    value={!!options.withTransforms}
-                    onChange={() => onOptionsChange({ ...options, withTransforms: !options.withTransforms })}
-                  />
-                </Field>
-              )}
-              {showFieldConfigsOption && (
-                <Field
-                  label="Formatted data"
-                  description="Table data is formatted with options defined in the Field and Override tabs."
-                >
-                  <Switch
-                    value={!!options.withFieldConfig}
-                    onChange={() => onOptionsChange({ ...options, withFieldConfig: !options.withFieldConfig })}
-                  />
-                </Field>
-              )}
-            </HorizontalGroup>
-          </VerticalGroup>
-        </div>
-      </QueryOperationRow>
+                <HorizontalGroup>
+                  {showPanelTransformationsOption && (
+                    <Field label={t('Apply panel transformations')} description={t('Table data is displayed')}>
+                      <Switch
+                        value={!!options.withTransforms}
+                        onChange={() => onOptionsChange({ ...options, withTransforms: !options.withTransforms })}
+                      />
+                    </Field>
+                  )}
+                  {showFieldConfigsOption && (
+                    <Field label={t('Formatted data')} description={t('Table data is formatted')}>
+                      <Switch
+                        value={!!options.withFieldConfig}
+                        onChange={() => onOptionsChange({ ...options, withFieldConfig: !options.withFieldConfig })}
+                      />
+                    </Field>
+                  )}
+                </HorizontalGroup>
+              </VerticalGroup>
+            </div>
+          </QueryOperationRow>
+        )}
+      </Translation>
     );
   }
 
@@ -273,15 +273,19 @@ export class InspectDataTab extends PureComponent<Props, State> {
       <div className={styles.dataTabContent} aria-label={selectors.components.PanelInspector.Data.content}>
         <div className={styles.actionsWrapper}>
           <div className={styles.dataDisplayOptions}>{this.renderDataOptions(dataFrames)}</div>
-          <Button
-            variant="primary"
-            onClick={() => this.exportCsv(dataFrames[dataFrameIndex])}
-            className={css`
-              margin-bottom: 10px;
-            `}
-          >
-            Download CSV
-          </Button>
+          <Translation>
+            {t => (
+              <Button
+                variant="primary"
+                onClick={() => this.exportCsv(dataFrames[dataFrameIndex])}
+                className={css`
+                  margin-bottom: 10px;
+                `}
+              >
+                {t('Download CSV')}
+              </Button>
+            )}
+          </Translation>
         </div>
         <Container grow={1}>
           <AutoSizer>
@@ -307,7 +311,7 @@ function buildTransformationOptions() {
   const transformations: Array<SelectableValue<DataTransformerID>> = [
     {
       value: DataTransformerID.seriesToColumns,
-      label: 'Series joined by time',
+      label: i18n.t('Series joined by time'),
       transformer: {
         id: DataTransformerID.seriesToColumns,
         options: { byField: 'Time' },

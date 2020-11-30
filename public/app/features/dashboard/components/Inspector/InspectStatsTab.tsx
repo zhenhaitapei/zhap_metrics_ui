@@ -2,6 +2,8 @@ import { PanelData, QueryResultMetaStat, TimeZone } from '@grafana/data';
 import { selectors } from '@grafana/e2e-selectors';
 import { InspectStatsTable } from './InspectStatsTable';
 import React from 'react';
+import { Translation } from 'react-i18next';
+import i18n from 'app/core/i18n/i18n';
 
 interface InspectStatsTabProps {
   data: PanelData;
@@ -24,13 +26,13 @@ export const InspectStatsTab: React.FC<InspectStatsTabProps> = ({ data, timeZone
   }
 
   if (requestTime > 0) {
-    stats.push({ displayName: 'Total request time', value: requestTime, unit: 'ms' });
+    stats.push({ displayName: i18n.t('Total request time'), value: requestTime, unit: 'ms' });
   }
   if (processingTime > 0) {
-    stats.push({ displayName: 'Data processing time', value: processingTime, unit: 'ms' });
+    stats.push({ displayName: i18n.t('Data processing time'), value: processingTime, unit: 'ms' });
   }
-  stats.push({ displayName: 'Number of queries', value: data.request.targets.length });
-  stats.push({ displayName: 'Total number rows', value: dataRows });
+  stats.push({ displayName: i18n.t('Number of queries'), value: data.request.targets.length });
+  stats.push({ displayName: i18n.t('Total number rows'), value: dataRows });
 
   let dataStats: QueryResultMetaStat[] = [];
 
@@ -41,9 +43,13 @@ export const InspectStatsTab: React.FC<InspectStatsTabProps> = ({ data, timeZone
   }
 
   return (
-    <div aria-label={selectors.components.PanelInspector.Stats.content}>
-      <InspectStatsTable timeZone={timeZone} name={'Stats'} stats={stats} />
-      <InspectStatsTable timeZone={timeZone} name={'Data source stats'} stats={dataStats} />
-    </div>
+    <Translation>
+      {t => (
+        <div aria-label={selectors.components.PanelInspector.Stats.content}>
+          <InspectStatsTable timeZone={timeZone} name={'Stats'} stats={stats} />
+          <InspectStatsTable timeZone={timeZone} name={'Data source stats'} stats={dataStats} />
+        </div>
+      )}
+    </Translation>
   );
 };

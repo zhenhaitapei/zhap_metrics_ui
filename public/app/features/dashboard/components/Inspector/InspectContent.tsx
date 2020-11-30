@@ -12,6 +12,7 @@ import { InspectTab } from './types';
 import { DashboardModel, PanelModel } from '../../state';
 import { DataSourceApi, PanelData, PanelPlugin } from '@grafana/data';
 import { GetDataOptions } from '../../state/PanelQueryRunner';
+import i18n from 'app/core/i18n/i18n';
 
 interface Props {
   dashboard: DashboardModel;
@@ -59,7 +60,7 @@ export const InspectContent: React.FC<Props> = ({
 
   return (
     <Drawer
-      title={`Inspect: ${panel.title}` || 'Panel inspect'}
+      title={i18n.t('Inspect') + `: ${panel.title}` || i18n.t('Panel inspect')}
       subtitle={
         <InspectSubtitle
           tabs={tabs}

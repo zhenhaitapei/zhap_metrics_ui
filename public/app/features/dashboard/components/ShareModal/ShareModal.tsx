@@ -6,20 +6,22 @@ import { ShareSnapshot } from './ShareSnapshot';
 import { ShareExport } from './ShareExport';
 import { ShareEmbed } from './ShareEmbed';
 import { ShareModalTabModel } from './types';
+import { Translation } from 'react-i18next';
+import i18n from 'app/core/i18n/i18n';
 
 const shareCommonTabs: ShareModalTabModel[] = [
-  { label: 'Link', value: 'link', component: ShareLink },
-  { label: 'Snapshot', value: 'snapshot', component: ShareSnapshot },
+  { label: i18n.t('Link'), value: 'link', component: ShareLink },
+  { label: i18n.t('Snapshot'), value: 'snapshot', component: ShareSnapshot },
 ];
 
 // prettier-ignore
 const shareDashboardTabs: ShareModalTabModel[] = [
-  { label: 'Export', value: 'export', component: ShareExport },
+  { label: i18n.t('Export'), value: 'export', component: ShareExport },
 ];
 
 // prettier-ignore
 const sharePanelTabs: ShareModalTabModel[] = [
-  { label: 'Embed', value: 'embed', component: ShareEmbed },
+  { label: i18n.t('Embed'), value: 'embed', component: ShareEmbed },
 ];
 
 const customDashboardTabs: ShareModalTabModel[] = [];
@@ -99,13 +101,17 @@ export class ShareModal extends React.Component<Props, State> {
     const tabs = this.getTabs();
 
     return (
-      <ModalTabsHeader
-        title={title}
-        icon="share-alt"
-        tabs={tabs}
-        activeTab={activeTab}
-        onChangeTab={this.onSelectTab}
-      />
+      <Translation>
+        {t => (
+          <ModalTabsHeader
+            title={t(title)}
+            icon="share-alt"
+            tabs={tabs}
+            activeTab={activeTab}
+            onChangeTab={this.onSelectTab}
+          />
+        )}
+      </Translation>
     );
   }
 

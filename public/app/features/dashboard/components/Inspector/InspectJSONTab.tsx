@@ -7,6 +7,8 @@ import { selectors } from '@grafana/e2e-selectors';
 import { appEvents } from 'app/core/core';
 import { DashboardModel, PanelModel } from '../../state';
 import { getPanelInspectorStyles } from './styles';
+import { Translation } from 'react-i18next';
+import i18n from 'app/core/i18n/i18n';
 
 enum ShowContent {
   PanelJSON = 'panel',
@@ -16,18 +18,18 @@ enum ShowContent {
 
 const options: Array<SelectableValue<ShowContent>> = [
   {
-    label: 'Panel JSON',
-    description: 'The model saved in the dashboard JSON that configures how everything works.',
+    label: i18n.t('Panel JSON'),
+    description: i18n.t('The model saved in the dashboard JSON that configures how everything works.'),
     value: ShowContent.PanelJSON,
   },
   {
-    label: 'Panel data',
-    description: 'The raw model passed to the panel visualization',
+    label: i18n.t('Panel data'),
+    description: i18n.t('The raw model passed to the panel visualization'),
     value: ShowContent.PanelData,
   },
   {
-    label: 'DataFrame structure',
-    description: 'Response info without any values',
+    label: i18n.t('DataFrame structure'),
+    description: i18n.t('Response info without any values'),
     value: ShowContent.DataStructure,
   },
 ];
@@ -72,7 +74,7 @@ export class InspectJSONTab extends PureComponent<Props, State> {
     if (show === ShowContent.DataStructure) {
       const series = this.props.data?.series;
       if (!series) {
-        return { note: 'Missing Response Data' };
+        return { note: i18n.t('Missing Response Data') };
       }
       return this.props.data!.series.map(frame => {
         const { table, fields, ...rest } = frame as any; // remove 'table' from arrow response
@@ -93,7 +95,7 @@ export class InspectJSONTab extends PureComponent<Props, State> {
       return this.props.panel.getSaveModel();
     }
 
-    return { note: `Unknown Object: ${show}` };
+    return { note: i18n.t('Unknown Object') + `: ${show}` };
   }
 
   onApplyPanelModel = () => {
@@ -127,9 +129,13 @@ export class InspectJSONTab extends PureComponent<Props, State> {
     return (
       <>
         <div className={styles.toolbar} aria-label={selectors.components.PanelInspector.Json.content}>
-          <Field label="Select source" className="flex-grow-1">
-            <Select options={options} value={selected} onChange={this.onSelectChanged} />
-          </Field>
+          <Translation>
+            {t => (
+              <Field label={t('Select source')} className="flex-grow-1">
+                <Select options={options} value={selected} onChange={this.onSelectChanged} />
+              </Field>
+            )}
+          </Translation>
           {isPanelJSON && canEdit && (
             <Button className={styles.toolbarItem} onClick={this.onApplyPanelModel}>
               Apply

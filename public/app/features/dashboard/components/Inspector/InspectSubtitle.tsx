@@ -3,6 +3,7 @@ import { css } from 'emotion';
 import { stylesFactory, Tab, TabsBar, useTheme } from '@grafana/ui';
 import { GrafanaTheme, SelectableValue, PanelData, getValueFormat, formattedValueToString } from '@grafana/data';
 import { InspectTab } from './types';
+import i18n from 'app/core/i18n/i18n';
 
 interface Props {
   tab: InspectTab;
@@ -53,5 +54,5 @@ function formatStats(data: PanelData) {
   const requestTime = request.endTime ? request.endTime - request.startTime : 0;
   const formatted = formattedValueToString(getValueFormat('ms')(requestTime));
 
-  return `${queryCount} queries with total query time of ${formatted}`;
+  return `${queryCount} ` + i18n.t('queries with total query time of') + `${formatted}`;
 }

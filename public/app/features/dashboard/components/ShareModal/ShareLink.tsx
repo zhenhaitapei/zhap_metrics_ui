@@ -7,11 +7,13 @@ import { DashboardModel } from 'app/features/dashboard/state';
 import { buildImageUrl, buildShareUrl } from './utils';
 import { appEvents } from 'app/core/core';
 import config from 'app/core/config';
+import { Translation } from 'react-i18next';
+import i18n from 'app/core/i18n/i18n';
 
 const themeOptions: Array<SelectableValue<string>> = [
-  { label: 'current', value: 'current' },
-  { label: 'dark', value: 'dark' },
-  { label: 'light', value: 'light' },
+  { label: i18n.t('current'), value: 'current' },
+  { label: i18n.t('dark'), value: 'dark' },
+  { label: i18n.t('light'), value: 'light' },
 ];
 
 export interface Props {
@@ -89,71 +91,77 @@ export class ShareLink extends PureComponent<Props, State> {
     const selectors = e2eSelectors.pages.SharePanelModal;
 
     return (
-      <div className="share-modal-body">
-        <div className="share-modal-header">
-          <Icon name="link" className="share-modal-big-icon" size="xxl" />
-          <div className="share-modal-content">
-            <p className="share-modal-info-text">
-              Create a direct link to this dashboard or panel, customized with the options below.
-            </p>
-            <div className="gf-form-group">
-              <Switch
-                labelClass="width-12"
-                label="Current time range"
-                checked={useCurrentTimeRange}
-                onChange={this.onUseCurrentTimeRangeChange}
-              />
-              <Switch
-                labelClass="width-12"
-                label="Template variables"
-                checked={includeTemplateVars}
-                onChange={this.onIncludeTemplateVarsChange}
-              />
-              <div className="gf-form">
-                <label className="gf-form-label width-12">Theme</label>
-                <Select width={10} options={themeOptions} value={selectedTheme} onChange={this.onThemeChange} />
-              </div>
-            </div>
-            <div>
-              <div className="gf-form-group">
-                <div className="gf-form-inline">
-                  <div className="gf-form gf-form--grow">
-                    <input type="text" className="gf-form-input" defaultValue={shareUrl} />
-                  </div>
+      <Translation>
+        {t => (
+          <div className="share-modal-body">
+            <div className="share-modal-header">
+              <Icon name="link" className="share-modal-big-icon" size="xxl" />
+              <div className="share-modal-content">
+                <p className="share-modal-info-text">{t('panel, customized with the options below.')}</p>
+                <div className="gf-form-group">
+                  <Switch
+                    labelClass="width-12"
+                    label={t('Current time range')}
+                    checked={useCurrentTimeRange}
+                    onChange={this.onUseCurrentTimeRangeChange}
+                  />
+                  <Switch
+                    labelClass="width-12"
+                    label={t('Template variables')}
+                    checked={includeTemplateVars}
+                    onChange={this.onIncludeTemplateVarsChange}
+                  />
                   <div className="gf-form">
-                    <ClipboardButton variant="primary" getText={this.getShareUrl} onClipboardCopy={this.onShareUrlCopy}>
-                      Copy
-                    </ClipboardButton>
+                    <label className="gf-form-label width-12">{t('Theme')}</label>
+                    <Select width={10} options={themeOptions} value={selectedTheme} onChange={this.onThemeChange} />
                   </div>
                 </div>
+                <div>
+                  <div className="gf-form-group">
+                    <div className="gf-form-inline">
+                      <div className="gf-form gf-form--grow">
+                        <input type="text" className="gf-form-input" defaultValue={shareUrl} />
+                      </div>
+                      <div className="gf-form">
+                        <ClipboardButton
+                          variant="primary"
+                          getText={this.getShareUrl}
+                          onClipboardCopy={this.onShareUrlCopy}
+                        >
+                          {t('Copy')}
+                        </ClipboardButton>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {panel && config.rendererAvailable && (
+                  <div className="gf-form">
+                    <a href={imageUrl} target="_blank" aria-label={selectors.linkToRenderedImage}>
+                      <Icon name="camera" /> Direct link rendered image
+                    </a>
+                  </div>
+                )}
+                {panel && !config.rendererAvailable && (
+                  <InfoBox>
+                    <p>
+                      <>To render a panel image, you must install the </>
+                      <a
+                        href="https://grafana.com/grafana/plugins/grafana-image-renderer"
+                        target="_blank"
+                        rel="noopener"
+                        className="external-link"
+                      >
+                        Grafana Image Renderer plugin
+                      </a>
+                      . Please contact your Grafana administrator to install the plugin.
+                    </p>
+                  </InfoBox>
+                )}
               </div>
             </div>
-            {panel && config.rendererAvailable && (
-              <div className="gf-form">
-                <a href={imageUrl} target="_blank" aria-label={selectors.linkToRenderedImage}>
-                  <Icon name="camera" /> Direct link rendered image
-                </a>
-              </div>
-            )}
-            {panel && !config.rendererAvailable && (
-              <InfoBox>
-                <p>
-                  <>To render a panel image, you must install the </>
-                  <a
-                    href="https://grafana.com/grafana/plugins/grafana-image-renderer"
-                    target="_blank"
-                    rel="noopener"
-                    className="external-link"
-                  >
-                    Grafana Image Renderer plugin
-                  </a>
-                  . Please contact your Grafana administrator to install the plugin.
-                </p>
-              </InfoBox>
-            )}
           </div>
-        </div>
-      </div>
+        )}
+      </Translation>
     );
   }
 }
