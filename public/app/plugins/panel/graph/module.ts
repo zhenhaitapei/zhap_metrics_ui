@@ -27,6 +27,7 @@ import { changePanelPlugin } from 'app/features/dashboard/state/actions';
 import { dispatch } from 'app/store/store';
 
 import { ThresholdMapper } from 'app/features/alerting/state/ThresholdMapper';
+import i18n from 'app/core/i18n/i18n';
 
 export class GraphCtrl extends MetricsPanelCtrl {
   static template = template;
@@ -178,7 +179,7 @@ export class GraphCtrl extends MetricsPanelCtrl {
   }
 
   onInitPanelActions(actions: any[]) {
-    actions.push({ text: 'Toggle legend', click: 'ctrl.toggleLegend()', shortcut: 'p l' });
+    actions.push({ text: i18n.t('Toggle legend'), click: 'ctrl.toggleLegend()', shortcut: 'p l' });
   }
 
   issueQueries(datasource: any) {

@@ -6,13 +6,15 @@ import { DashboardModel, PanelModel } from 'app/features/dashboard/state';
 import { getTimeSrv } from 'app/features/dashboard/services/TimeSrv';
 import { appEvents } from 'app/core/core';
 import { VariableRefresh } from '../../../variables/types';
+import { Translation, Trans } from 'react-i18next';
+import i18n from 'app/core/i18n/i18n';
 
 const { Select, Input } = LegacyForms;
 
 const snapshotApiUrl = '/api/snapshots';
 
 const expireOptions: Array<SelectableValue<number>> = [
-  { label: 'Never', value: 0 },
+  { label: i18n.t('Never'), value: 0 },
   { label: '1 Hour', value: 60 * 60 },
   { label: '1 Day', value: 60 * 60 * 24 },
   { label: '7 Days', value: 60 * 60 * 24 * 7 },
@@ -197,6 +199,7 @@ export class ShareSnapshot extends PureComponent<Props, State> {
     appEvents.emit(AppEvents.alertSuccess, ['Content copied to clipboard']);
   };
 
+  // prettier-ignore
   renderStep1() {
     const { onDismiss } = this.props;
     const {
@@ -207,59 +210,71 @@ export class ShareSnapshot extends PureComponent<Props, State> {
       sharingButtonText,
       externalEnabled,
     } = this.state;
-
     return (
-      <>
-        <div>
-          <p className="share-modal-info-text">
-            A snapshot is an instant way to share an interactive dashboard publicly. When created, we{' '}
-            <strong>strip sensitive data</strong> like queries (metric, template and annotation) and panel links,
-            leaving only the visible metric data and series names embedded into your dashboard.
-          </p>
-          <p className="share-modal-info-text">
-            Keep in mind, your <strong>snapshot can be viewed by anyone</strong> that has the link and can reach the
-            URL. Share wisely.
-          </p>
-        </div>
-        <div className="gf-form-group share-modal-options">
-          <div className="gf-form" ng-if="step === 1">
-            <label className="gf-form-label width-12">Snapshot name</label>
-            <Input width={15} value={snapshotName} onChange={this.onSnapshotNameChange} />
-          </div>
-          <div className="gf-form" ng-if="step === 1">
-            <label className="gf-form-label width-12">Expire</label>
-            <Select width={15} options={expireOptions} value={selectedExpireOption} onChange={this.onExpireChange} />
-          </div>
-        </div>
+      <Translation>
+        {t => (
+          <>
+            <div>
+              <p className="share-modal-info-text">
+                <Trans>
+                A snapshot is an instant way
+                </Trans>
+              </p>
+              <p className="share-modal-info-text">
+                <Trans>
+                Keep in mind
+                </Trans>
+              </p>
+            </div>
+            <div className="gf-form-group share-modal-options">
+              <div className="gf-form" ng-if="step === 1">
+                <label className="gf-form-label width-12">{t('Snapshot name')}</label>
+                <Input width={15} value={snapshotName} onChange={this.onSnapshotNameChange} />
+              </div>
+              <div className="gf-form" ng-if="step === 1">
+                <label className="gf-form-label width-12">{t('Expire')}</label>
+                <Select width={15} options={expireOptions} value={selectedExpireOption} onChange={this.onExpireChange} />
+              </div>
+            </div>
 
-        <p className="share-modal-info-text">
-          You may need to configure the timeout value if it takes a long time to collect your dashboard's metrics.
-        </p>
+            <p className="share-modal-info-text">
+              <Trans>
+              You may need to configure the timeout value if it takes a long time to collect your dashboard's metrics.
+              </Trans>
+            </p>
 
-        <div className="gf-form-group share-modal-options">
-          <div className="gf-form">
-            <span className="gf-form-label width-12">Timeout (seconds)</span>
-            <Input type="number" width={15} value={timeoutSeconds} onChange={this.onTimeoutChange} />
-          </div>
-        </div>
+            <div className="gf-form-group share-modal-options">
+              <div className="gf-form">
+                <span className="gf-form-label width-12"><Trans>Timeout</Trans></span>
+                <Input type="number" width={15} value={timeoutSeconds} onChange={this.onTimeoutChange} />
+              </div>
+            </div>
 
-        <div className="gf-form-button-row">
-          <Button className="width-10" variant="primary" disabled={isLoading} onClick={this.createSnapshot()}>
-            Local Snapshot
-          </Button>
-          {externalEnabled && (
-            <Button className="width-16" variant="secondary" disabled={isLoading} onClick={this.createSnapshot(true)}>
+            <div className="gf-form-button-row">
+              <Button className="width-10" variant="primary" disabled={isLoading} onClick={this.createSnapshot()}>
+              <Trans>Local Snapshot</Trans>
+              </Button>
+              {externalEnabled && (
+              <Button
+                className="width-16"
+                variant="secondary"
+                disabled={isLoading}
+                onClick={this.createSnapshot(true)}
+                >
               {sharingButtonText}
-            </Button>
-          )}
-          <Button variant="secondary" onClick={onDismiss}>
-            Cancel
-          </Button>
-        </div>
-      </>
+              </Button>
+              )}
+              <Button variant="secondary" onClick={onDismiss}>
+                <Trans>Cancel</Trans>
+              </Button>
+            </div>
+          </>
+        )}
+      </Translation>
     );
   }
 
+  // prettier-ignore
   renderStep2() {
     const { snapshotUrl } = this.state;
 
@@ -272,27 +287,27 @@ export class ShareSnapshot extends PureComponent<Props, State> {
             </a>
             <br />
             <ClipboardButton variant="secondary" getText={this.getSnapshotUrl} onClipboardCopy={this.onSnapshotUrlCopy}>
-              Copy Link
+              <Trans>Copy Link</Trans>
             </ClipboardButton>
           </div>
         </div>
 
         <div className="pull-right" ng-if="step === 2" style={{ padding: '5px' }}>
-          Did you make a mistake?{' '}
+          <Trans>Did you make a mistake?</Trans>
           <LinkButton variant="link" target="_blank" onClick={this.deleteSnapshot}>
-            delete snapshot.
+            <Trans>delete snapshot.</Trans>
           </LinkButton>
         </div>
       </>
     );
   }
 
+  // prettier-ignore
   renderStep3() {
     return (
       <div className="share-modal-header">
         <p className="share-modal-info-text">
-          The snapshot has now been deleted. If it you have already accessed it once, It might take up to an hour before
-          it is removed from browser caches or CDN caches.
+          <Trans>The snapshot has now been deleted. If it you have already accessed it once, It might take up to an hour before it is removed from browser caches or CDN caches.</Trans>
         </p>
       </div>
     );

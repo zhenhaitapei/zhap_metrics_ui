@@ -6,6 +6,7 @@ import { DashboardModel, PanelModel } from 'app/features/dashboard/state';
 import { DashboardExporter } from 'app/features/dashboard/components/DashExportModal';
 import { appEvents } from 'app/core/core';
 import { CoreEvents } from 'app/types';
+import { Translation, Trans } from 'react-i18next';
 
 interface Props {
   dashboard: DashboardModel;
@@ -89,31 +90,35 @@ export class ShareExport extends PureComponent<Props, State> {
     const { shareExternally } = this.state;
 
     return (
-      <div className="share-modal-body">
-        <div className="share-modal-header">
-          <Icon name="cloud-upload" size="xxl" className="share-modal-big-icon" />
-          <div className="share-modal-content">
-            <Switch
-              labelClass="width-16"
-              label="Export for sharing externally"
-              checked={shareExternally}
-              onChange={this.onShareExternallyChange}
-            />
+      <Translation>
+        {t => (
+          <div className="share-modal-body">
+            <div className="share-modal-header">
+              <Icon name="cloud-upload" size="xxl" className="share-modal-big-icon" />
+              <div className="share-modal-content">
+                <Switch
+                  labelClass="width-16"
+                  label={t('Export for sharing externally')}
+                  checked={shareExternally}
+                  onChange={this.onShareExternallyChange}
+                />
 
-            <div className="gf-form-button-row">
-              <Button variant="primary" onClick={this.onSaveAsFile}>
-                Save to file
-              </Button>
-              <Button variant="secondary" onClick={this.onViewJson}>
-                View JSON
-              </Button>
-              <Button variant="secondary" onClick={onDismiss}>
-                Cancel
-              </Button>
+                <div className="gf-form-button-row">
+                  <Button variant="primary" onClick={this.onSaveAsFile}>
+                    <Trans>Save to file</Trans>
+                  </Button>
+                  <Button variant="secondary" onClick={this.onViewJson}>
+                    <Trans>View JSON</Trans>
+                  </Button>
+                  <Button variant="secondary" onClick={onDismiss}>
+                    <Trans>Cancel</Trans>
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        )}
+      </Translation>
     );
   }
 }
