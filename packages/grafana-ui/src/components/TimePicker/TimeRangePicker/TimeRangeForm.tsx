@@ -14,6 +14,7 @@ import { TimePickerCalendar } from './TimePickerCalendar';
 import { Field } from '../../Forms/Field';
 import { Input } from '../../Input/Input';
 import { Button } from '../../Button';
+import { Translation } from 'react-i18next';
 
 interface Props {
   isFullscreen: boolean;
@@ -87,44 +88,48 @@ export const TimeRangeForm: React.FC<Props> = props => {
 
   const icon = isFullscreen ? null : <Button icon="calendar-alt" variant="secondary" onClick={onOpen} />;
 
+  // prettier-ignore
   return (
-    <>
-      <Field label="From" invalid={from.invalid} error={errorMessage}>
-        <Input
-          onClick={event => event.stopPropagation()}
-          onFocus={onFocus}
-          onChange={event => setFrom(eventToState(event, false, timeZone))}
-          addonAfter={icon}
-          aria-label="TimePicker from field"
-          value={from.value}
-        />
-      </Field>
-      <Field label="To" invalid={to.invalid} error={errorMessage}>
-        <Input
-          onClick={event => event.stopPropagation()}
-          onFocus={onFocus}
-          onChange={event => setTo(eventToState(event, true, timeZone))}
-          addonAfter={icon}
-          aria-label="TimePicker to field"
-          value={to.value}
-        />
-      </Field>
-      <Button aria-label="TimePicker submit button" onClick={onApply}>
-        Apply time range
-      </Button>
-
-      <TimePickerCalendar
-        isFullscreen={isFullscreen}
-        isOpen={isOpen}
-        from={dateTimeParse(from.value, { timeZone })}
-        to={dateTimeParse(to.value, { timeZone })}
-        onApply={onApply}
-        onClose={() => setOpen(false)}
-        onChange={onChange}
-        timeZone={timeZone}
-        isReversed={props.isReversed}
-      />
-    </>
+    <Translation>
+        {t => (
+          <>
+            <Field label={t('From')} invalid={from.invalid} error={t(errorMessage)}>
+              <Input
+                onClick={event => event.stopPropagation()}
+                onFocus={onFocus}
+                onChange={event => setFrom(eventToState(event, false, timeZone))}
+                addonAfter={icon}
+                aria-label="TimePicker from field"
+                value={from.value}
+              />
+            </Field>
+            <Field label={t('To')} invalid={to.invalid} error={t(errorMessage)}>
+              <Input
+                onClick={event => event.stopPropagation()}
+                onFocus={onFocus}
+                onChange={event => setTo(eventToState(event, true, timeZone))}
+                addonAfter={icon}
+                aria-label="TimePicker to field"
+                value={to.value}
+              />
+            </Field>
+            <Button aria-label="TimePicker submit button" onClick={onApply}>
+              {t('Apply time range')}
+            </Button>
+            <TimePickerCalendar
+              isFullscreen={isFullscreen}
+              isOpen={isOpen}
+              from={dateTimeParse(from.value, { timeZone })}
+              to={dateTimeParse(to.value, { timeZone })}
+              onApply={onApply}
+              onClose={() => setOpen(false)}
+              onChange={onChange}
+              timeZone={timeZone}
+              isReversed={props.isReversed}
+            />
+          </>
+        )}
+    </Translation>
   );
 };
 

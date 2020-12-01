@@ -4,6 +4,7 @@ const { Select, Switch } = LegacyForms;
 import { SelectableValue } from '@grafana/data';
 import { DashboardModel, PanelModel } from 'app/features/dashboard/state';
 import { buildIframeHtml } from './utils';
+import { Translation } from 'react-i18next';
 
 const themeOptions: Array<SelectableValue<string>> = [
   { label: 'current', value: 'current' },
@@ -73,46 +74,50 @@ export class ShareEmbed extends PureComponent<Props, State> {
     );
   };
 
+  // prettier-ignore
   render() {
     const { useCurrentTimeRange, includeTemplateVars, selectedTheme, iframeHtml } = this.state;
 
     return (
-      <div className="share-modal-body">
-        <div className="share-modal-header">
-          <Icon name="link" className="share-modal-big-icon" size="xxl" />
-          <div className="share-modal-content">
-            <div className="gf-form-group">
-              <Switch
-                labelClass="width-12"
-                label="Current time range"
-                checked={useCurrentTimeRange}
-                onChange={this.onUseCurrentTimeRangeChange}
-              />
-              <Switch
-                labelClass="width-12"
-                label="Template variables"
-                checked={includeTemplateVars}
-                onChange={this.onIncludeTemplateVarsChange}
-              />
-              <div className="gf-form">
-                <label className="gf-form-label width-12">Theme</label>
-                <Select width={10} options={themeOptions} value={selectedTheme} onChange={this.onThemeChange} />
-              </div>
-            </div>
+      <Translation>
+        {t => (
+          <div className="share-modal-body">
+            <div className="share-modal-header">
+              <Icon name="link" className="share-modal-big-icon" size="xxl" />
+              <div className="share-modal-content">
+                <div className="gf-form-group">
+                  <Switch
+                    labelClass="width-12"
+                    label={t('Current time range')}
+                    checked={useCurrentTimeRange}
+                    onChange={this.onUseCurrentTimeRangeChange}
+                  />
+                  <Switch
+                    labelClass="width-12"
+                    label={t('Template variables')}
+                    checked={includeTemplateVars}
+                    onChange={this.onIncludeTemplateVarsChange}
+                  />
+                  <div className="gf-form">
+                    <label className="gf-form-label width-12">{t('Theme')}</label>
+                    <Select width={10} options={themeOptions} value={selectedTheme} onChange={this.onThemeChange} />
+                  </div>
+                </div>
 
-            <p className="share-modal-info-text">
-              The html code below can be pasted and included in another web page. Unless anonymous access is enabled,
-              the user viewing that page need to be signed into grafana for the graph to load.
-            </p>
+                <p className="share-modal-info-text">
+                  {t('The html code below can be')}
+                </p>
 
-            <div className="gf-form-group gf-form--grow">
-              <div className="gf-form">
-                <textarea rows={5} data-share-panel-url className="gf-form-input" defaultValue={iframeHtml}></textarea>
+                <div className="gf-form-group gf-form--grow">
+                  <div className="gf-form">
+                    <textarea rows={5} data-share-panel-url className="gf-form-input" defaultValue={iframeHtml}></textarea>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        )}
+      </Translation>
     );
   }
 }

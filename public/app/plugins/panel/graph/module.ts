@@ -279,14 +279,14 @@ export class GraphCtrl extends MetricsPanelCtrl {
       }
 
       const dataWarning: DataWarning = {
-        title: 'Data outside time range',
+        title: i18n.t('Data outside time range'),
         tip: 'Can be caused by timezone mismatch or missing time filter in query',
       };
 
       const range = getDataTimeRange(this.dataList);
 
       if (range) {
-        dataWarning.actionText = 'Zoom to data';
+        dataWarning.actionText = i18n.t('Zoom to data');
         dataWarning.action = () => {
           getLocationSrv().update({
             partial: true,
