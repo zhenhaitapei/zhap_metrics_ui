@@ -10,4 +10,6 @@ export default {
     "Keep in mind": "Keep in mind, your <strong>snapshot can be viewed by anyone</strong> that has the link and can reach the URL. Share wisely.",
     "Timeout": "Timeout (seconds)",
     "Did you make a mistake?": "Did you make a mistake?    ",
+    "The html code below can be": "The html code below can be pasted and included in another web page. Unless anonymous access is enabled, the user viewing that page need to be signed into grafana for the graph to load.",
+    "It looks like you haven't": "It looks like you haven't used this timer picker before. As soon as you enter some time intervals, recently used intervals will appear here.",
 }

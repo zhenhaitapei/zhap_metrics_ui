@@ -5,6 +5,7 @@ import { DashboardModel } from 'app/features/dashboard/state';
 import { useMemo } from 'react';
 import { supportsDataQuery } from '../PanelEditor/utils';
 import { InspectTab } from './types';
+import i18n from 'app/core/i18n/i18n';
 
 /**
  * Given PanelData return first data source supporting metadata inspector
@@ -42,22 +43,22 @@ export const useInspectTabs = (
   return useMemo(() => {
     const tabs = [];
     if (supportsDataQuery(plugin)) {
-      tabs.push({ label: 'Data', value: InspectTab.Data });
-      tabs.push({ label: 'Stats', value: InspectTab.Stats });
+      tabs.push({ label: i18n.t('Data'), value: InspectTab.Data });
+      tabs.push({ label: i18n.t('Stats'), value: InspectTab.Stats });
     }
 
     if (metaDs) {
-      tabs.push({ label: 'Meta Data', value: InspectTab.Meta });
+      tabs.push({ label: i18n.t('Meta Data'), value: InspectTab.Meta });
     }
 
-    tabs.push({ label: 'JSON', value: InspectTab.JSON });
+    tabs.push({ label: i18n.t('JSON'), value: InspectTab.JSON });
 
     if (error && error.message) {
-      tabs.push({ label: 'Error', value: InspectTab.Error });
+      tabs.push({ label: i18n.t('Error'), value: InspectTab.Error });
     }
 
     if (dashboard.meta.canEdit && supportsDataQuery(plugin)) {
-      tabs.push({ label: 'Query', value: InspectTab.Query });
+      tabs.push({ label: i18n.t('Query'), value: InspectTab.Query });
     }
     return tabs;
   }, [plugin, metaDs, dashboard, error]);

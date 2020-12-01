@@ -9,6 +9,7 @@ import { Button } from '../../Button';
 import { TimeZonePicker } from '../TimeZonePicker';
 import isString from 'lodash/isString';
 import { selectors } from '@grafana/e2e-selectors';
+import { Translation } from 'react-i18next';
 
 interface Props {
   timeZone?: TimeZone;
@@ -75,9 +76,13 @@ export const TimePickerFooter: FC<Props> = props => {
         <TimeZoneOffset timeZone={timeZone} timestamp={timestamp} />
       </div>
       <div className={style.spacer} />
-      <Button variant="secondary" onClick={onToggleChangeTz} size="sm">
-        Change time zone
-      </Button>
+      <Translation>
+        {t => (
+          <Button variant="secondary" onClick={onToggleChangeTz} size="sm">
+            {t('Change time zone')}
+          </Button>
+        )}
+      </Translation>
     </div>
   );
 };
