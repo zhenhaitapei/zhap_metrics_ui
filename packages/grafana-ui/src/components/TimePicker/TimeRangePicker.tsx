@@ -1,6 +1,7 @@
 // Libraries
 import React, { PureComponent, memo, FormEvent } from 'react';
 import { css, cx } from 'emotion';
+import { Trans } from 'react-i18next';
 
 // Components
 import { Tooltip } from '../Tooltip/Tooltip';
@@ -172,7 +173,7 @@ export class UnthemedTimeRangePicker extends PureComponent<Props, State> {
 
 const ZoomOutTooltip = () => (
   <>
-    Time range zoom out <br /> CTRL+Z
+    <Trans>Time range zoom out</Trans> <br /> CTRL+Z
   </>
 );
 
