@@ -1,3 +1,6 @@
+# zhap_metrics_ui
+The zhap metrics UI is build on top of grafana.
+
 ![Grafana](docs/logo-horizontal.png)
 
 The open-source platform for monitoring and observability.
