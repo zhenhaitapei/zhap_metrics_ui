@@ -1,6 +1,8 @@
 # zhap_metrics_ui
 The zhap metrics UI is build on top of grafana.
 
+  This is fork from Granfana's (2020.09.25) [19c5c96d4c](https://github.com/grafana/grafana/commit/19c5c96d4cec30d673a03da3a1933be001eb162d) version.
+
 ![Grafana](docs/logo-horizontal.png)
 
 The open-source platform for monitoring and observability.
